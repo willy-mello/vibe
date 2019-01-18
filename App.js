@@ -5,9 +5,14 @@ import { AuthSession } from 'expo';
 const { CLIENT_ID, CLIENT_SECRET, CALLBACK_URL } = require('./.scrt')
 
 export default class App extends React.Component {
-  state = {
-    result: null,
-  };
+  constructor() {
+    super()
+    this._handlePressAsync = this._handlePressAsync.bind(this)
+    this.state = {
+      result: null,
+    };
+    console.log('anything')
+  }
 
   render() {
     return (
@@ -22,6 +27,7 @@ export default class App extends React.Component {
 
   _handlePressAsync = async () => {
     let redirectUrl = AuthSession.getRedirectUrl();
+    console.log(redirectUrl, 'redirectURL')
     let result = await AuthSession.startAsync({
       authUrl:
         `https://accounts.spotify.com/authorize` +
@@ -31,6 +37,9 @@ export default class App extends React.Component {
     });
     this.setState({ result });
   };
+  componentDidMount() {
+    this._handlePressAsync()
+  }
 }
 
 const styles = StyleSheet.create({
