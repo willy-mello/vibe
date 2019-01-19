@@ -1,18 +1,18 @@
 import React from 'react';
 import { Button, StyleSheet, Text, View, AsyncStorage } from 'react-native';
 import { AuthSession } from 'expo';
-import { spotifyApi } from './app/spotifyAPI'
+import { decode as atob, encode as btoa } from 'base-64'
+
+import { createStackNavigator, createAppContainer } from 'react-navigation'
+import AppContainer from './app/StackNav'
+
 
 const { CLIENT_ID, CLIENT_SECRET, CALLBACK_URL, scopes } = require('./.scrt')
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor() {
     super()
-    // this._handlePressAsync = this._handlePressAsync.bind(this)
-    this.state = {
-      result: null,
-      expiration: null
-    };
+
 
 
   }
@@ -21,10 +21,13 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Button title="Login with Spotify" onPress={() => this._handleAuthSession()} />
-        {this.state.result ? (
-          <Text>{JSON.stringify(this.state.result)}</Text>
-        ) : null}
+        <AppContainer />
+
+
+        {/* <Button title="Login with Spotify" onPress={() => this._handleAuthSession()} />
+      
+        
+        <Button title="Destroy Credentials" onPress={() => this.logout()} /> */}
       </View>
     );
   }
@@ -69,15 +72,31 @@ export default class App extends React.Component {
         'expirationTime',
         JSON.stringify(expirationTime)
       );
-      console.log(AsyncStorage.accessToken, 'look over here')
+
     } catch (error) {
       console.error(error);
     }
   };;
+
+  logout = async () => {
+    try {
+      await AsyncStorage.removeItem('accessToken')
+      await AsyncStorage.removeItem('refreshToken')
+      await AsyncStorage.removeItem('expirationTime')
+      console.log('credentials destroyed')
+    } catch (error) {
+      console.error(error)
+    }
+  }
   componentDidMount() {
+    console.log('mounted')
 
   }
 }
+// const StackNav = createStackNavigator({
+//   home: Home
+
+// })
 
 const styles = StyleSheet.create({
   container: {
@@ -86,3 +105,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+export default AppContainer
