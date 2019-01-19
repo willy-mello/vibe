@@ -34,6 +34,7 @@ var generateRandomString = function (length) {
 };
 
 var stateKey = 'spotify_auth_state';
+console.log('got to second page')
 
 var app = express();
 
@@ -46,6 +47,7 @@ app.get('/login', function (req, res) {
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
 
+  console.log('got to app.get/login')
   // your application requests authorization
   var scope = 'user-read-private user-read-email';
   res.redirect('https://accounts.spotify.com/authorize?' +
