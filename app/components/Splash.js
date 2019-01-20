@@ -24,7 +24,6 @@ class Splash extends Component {
 
   }
   componentDidMount() {
-    console.log(this.props, 'this.props at splash.js')
     this.props.navigation.navigate('graphics')
   }
 
