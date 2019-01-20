@@ -1,5 +1,5 @@
-import Home from './Home'
+import Login from './Login'
 import Graphics from './Graphics'
-import Dashboard from './Dashboard'
+import Splash from './Splash'
 
-export { Home, Graphics, Dashboard }
+export { Login, Graphics, Splash }

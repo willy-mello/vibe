@@ -32,69 +32,69 @@ class App extends React.Component {
     );
   }
 
-  _handleAuthSession = async () => {
-    try {
-      const redirectUrl = AuthSession.getRedirectUrl();
-      const result = await AuthSession.startAsync({
-        authUrl:
-          'https://accounts.spotify.com/authorize' +
-          '?response_type=code' +
-          '&client_id=' +
-          CLIENT_ID +
-          (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-          '&redirect_uri=' +
-          encodeURIComponent(redirectUrl),
-      });
-      const spotifyAuthCode = result.params.code;
-      const credsB64 = btoa(
-        `${CLIENT_ID}:${CLIENT_SECRET}`
-      );
-      const response = await fetch('https://accounts.spotify.com/api/token', {
-        method: 'POST',
-        headers: {
-          Authorization: `Basic ${credsB64}`,
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `grant_type=authorization_code&code=${spotifyAuthCode}&redirect_uri=${
-          CALLBACK_URL
-          }`,
-      });
-      const responseJson = await response.json();
-      const {
-        access_token: accessToken,
-        refresh_token: refreshToken,
-        expires_in: expiresIn,
-      } = responseJson;
-      const expirationTime = new Date().getTime() + expiresIn * 1000;
-      await AsyncStorage.setItem('accessToken', accessToken);
-      await AsyncStorage.setItem('refreshToken', refreshToken);
-      await AsyncStorage.setItem(
-        'expirationTime',
-        JSON.stringify(expirationTime)
-      );
+  // _handleAuthSession = async () => {
+  //   try {
+  //     const redirectUrl = AuthSession.getRedirectUrl();
+  //     const result = await AuthSession.startAsync({
+  //       authUrl:
+  //         'https://accounts.spotify.com/authorize' +
+  //         '?response_type=code' +
+  //         '&client_id=' +
+  //         CLIENT_ID +
+  //         (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+  //         '&redirect_uri=' +
+  //         encodeURIComponent(redirectUrl),
+  //     });
+  //     const spotifyAuthCode = result.params.code;
+  //     const credsB64 = btoa(
+  //       `${CLIENT_ID}:${CLIENT_SECRET}`
+  //     );
+  //     const response = await fetch('https://accounts.spotify.com/api/token', {
+  //       method: 'POST',
+  //       headers: {
+  //         Authorization: `Basic ${credsB64}`,
+  //         'Content-Type': 'application/x-www-form-urlencoded',
+  //       },
+  //       body: `grant_type=authorization_code&code=${spotifyAuthCode}&redirect_uri=${
+  //         CALLBACK_URL
+  //         }`,
+  //     });
+  //     const responseJson = await response.json();
+  //     const {
+  //       access_token: accessToken,
+  //       refresh_token: refreshToken,
+  //       expires_in: expiresIn,
+  //     } = responseJson;
+  //     const expirationTime = new Date().getTime() + expiresIn * 1000;
+  //     await AsyncStorage.setItem('accessToken', accessToken);
+  //     await AsyncStorage.setItem('refreshToken', refreshToken);
+  //     await AsyncStorage.setItem(
+  //       'expirationTime',
+  //       JSON.stringify(expirationTime)
+  //     );
 
-    } catch (error) {
-      console.error(error);
-    }
-  };;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };;
 
-  logout = async () => {
-    try {
-      await AsyncStorage.removeItem('accessToken')
-      await AsyncStorage.removeItem('refreshToken')
-      await AsyncStorage.removeItem('expirationTime')
-      console.log('credentials destroyed')
-    } catch (error) {
-      console.error(error)
-    }
-  }
+  // logout = async () => {
+  //   try {
+  //     await AsyncStorage.removeItem('accessToken')
+  //     await AsyncStorage.removeItem('refreshToken')
+  //     await AsyncStorage.removeItem('expirationTime')
+  //     console.log('credentials destroyed')
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
   componentDidMount() {
     console.log('mounted')
 
   }
 }
 // const StackNav = createStackNavigator({
-//   home: Home
+//   Login: Login
 
 // })
 

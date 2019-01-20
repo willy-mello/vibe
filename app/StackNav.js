@@ -1,29 +1,38 @@
 import React, { Component } from 'react'
 import { createStackNavigator, createAppContainer, createBottomTabNavigator } from 'react-navigation'
-import { Home, Graphics, Dashboard } from './components'
+import { Login, Graphics, Splash } from './components'
 
 console.log(this.props, 'props at stacknav')
 
-const HomeStack = createStackNavigator({
-  home: Home,
-  graphics: Graphics
+const LoginStack = createStackNavigator({
+  Login: Login,
+  graphics: Graphics,
+  splash: Splash
 }
 )
 
 const GraphicsStack = createStackNavigator({
   graphics: Graphics,
-  home: Home
+  Login: Login,
+  splash: Splash
 }
 )
 
-console.log('logged the staskNav', Home)
+const SplashStack = createStackNavigator({
+  splash: Splash,
+  graphics: Graphics,
+  Login: Login
+})
+
+console.log('logged the staskNav', Login)
 
 
 
 export default createAppContainer(createBottomTabNavigator(
   {
-    home: HomeStack,
-    graphics: Graphics
+    splash: SplashStack,
+    Login: LoginStack,
+    graphics: GraphicsStack
   }
 )
 )
